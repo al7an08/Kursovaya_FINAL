@@ -2,12 +2,15 @@
 #include <chrono>
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+#include <iostream>
+#include <cmath>
+
 #include "Header.h"
 #include "Player.h"
 #include "MapCollision.h"
 #include "GetDegrees.h"
 #include "RadToDeg.h"
-#include <iostream>
+
 
 Player::Player(float i_x, float i_y, float i_hp) : // Конструктор класса Player
 	direction_horizontal(0),
@@ -54,12 +57,12 @@ void Player::draw_map(sf::RenderWindow& i_window) // отрисовка мини
 	
 	fov_visualization[0].position = sf::Vector2f(MAP_CELL_SIZE * start_x / CELL_SIZE, MAP_CELL_SIZE * start_y / CELL_SIZE);
 
-	map_player_sprite.setPosition(round(MAP_CELL_SIZE * x / CELL_SIZE), round(MAP_CELL_SIZE * y / CELL_SIZE));
-	map_player_sprite.setTextureRect(sf::IntRect(static_cast<unsigned short>(MAP_CELL_SIZE * floor(shifted_direction / frame_angle)), 0, MAP_CELL_SIZE, MAP_CELL_SIZE));
+	map_player_sprite.setPosition(std::round(MAP_CELL_SIZE * x / CELL_SIZE), std::round(MAP_CELL_SIZE * y / CELL_SIZE));
+	map_player_sprite.setTextureRect(sf::IntRect(static_cast<unsigned short>(MAP_CELL_SIZE * std::floor(shifted_direction / frame_angle)), 0, MAP_CELL_SIZE, MAP_CELL_SIZE));
 
 	for (unsigned short a = 0; a < SCREEN_WIDTH; a++)
 	{
-		float ray_direction = get_degrees(direction_horizontal + FOV_HORIZONTAL * (floor(0.5f * SCREEN_WIDTH) - 1 - a) / (SCREEN_WIDTH - 1));
+		float ray_direction = get_degrees(direction_horizontal + FOV_HORIZONTAL * (std::floor(0.5f * SCREEN_WIDTH) - 1 - a) / (SCREEN_WIDTH - 1));
 
 		// Находим точку, в которую упирается луч
 		fov_visualization[1 + a].position = sf::Vector2f(MAP_CELL_SIZE * (start_x + view_rays[a] * cos(deg_to_rad(ray_direction))) / CELL_SIZE, MAP_CELL_SIZE * (start_y - view_rays[a] * sin(deg_to_rad(ray_direction))) / CELL_SIZE);
@@ -75,7 +78,7 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 	//Это расстояние, когда высота проекции и высота стены перед игроком равны
 	float projection_distance = 0.5f * CELL_SIZE / tan(deg_to_rad(0.5f * FOV_VERTICAL));
 	
-	float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(deg_to_rad(direction_vertical)) / tan(deg_to_rad(0.5f * FOV_VERTICAL))));
+	float floor_level = std::round(0.5f * SCREEN_HEIGHT * (1 + tan(deg_to_rad(direction_vertical)) / tan(deg_to_rad(0.5f * FOV_VERTICAL))));
 	float ray_start_x = x + 0.5f * CELL_SIZE;
 	float ray_start_y = y + 0.5f * CELL_SIZE;
 
@@ -97,7 +100,7 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 		char cell_step_x = 0;
 		char cell_step_y = 0;
 
-		float ray_direction = get_degrees(direction_horizontal + FOV_HORIZONTAL * (floor(0.5f * SCREEN_WIDTH) - rays) / (SCREEN_WIDTH - 1));
+		float ray_direction = get_degrees(direction_horizontal + FOV_HORIZONTAL * (std::floor(0.5f * SCREEN_WIDTH) - rays) / (SCREEN_WIDTH - 1));
 		float ray_direction_x = cos(deg_to_rad(ray_direction));
 		float ray_direction_y = -sin(deg_to_rad(ray_direction));
 
@@ -113,8 +116,8 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 		//Длина луча, который движется по одному юниту по координате Y
 		float y_ray_unit_length = static_cast<float>(CELL_SIZE * sqrt(1 + pow(ray_direction_x / ray_direction_y, 2)));
 
-		unsigned char current_cell_x = static_cast<unsigned char>(floor(ray_start_x / CELL_SIZE));
-		unsigned char current_cell_y = static_cast<unsigned char>(floor(ray_start_y / CELL_SIZE));
+		unsigned char current_cell_x = static_cast<unsigned char>(std::floor(ray_start_x / CELL_SIZE));
+		unsigned char current_cell_y = static_cast<unsigned char>(std::floor(ray_start_y / CELL_SIZE));
 
 		if (0 > ray_direction_x)
 		{
@@ -208,21 +211,21 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 
 		view_rays[rays] = ray_length; // сохрянение значения длины луча
 
-		ray_direction = FOV_HORIZONTAL * (floor(0.5f * SCREEN_WIDTH) - rays) / (SCREEN_WIDTH - 1);
+		ray_direction = FOV_HORIZONTAL * (std::floor(0.5f * SCREEN_WIDTH) - rays) / (SCREEN_WIDTH - 1);
 		//Пересечение между лучом и проекцией
 		float ray_projection_position = 0.5f * tan(deg_to_rad(ray_direction)) / tan(deg_to_rad(0.5f * FOV_HORIZONTAL));
 
 		//Положение текущей колонны на экране
-		short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_position)));
+		short current_column = static_cast<short>(std::round(SCREEN_WIDTH * (0.5f - ray_projection_position)));
 		short next_column = SCREEN_WIDTH;
 
 		if (rays < SCREEN_WIDTH - 1)
 		{
-			float next_ray_direction = FOV_HORIZONTAL * (floor(0.5f * SCREEN_WIDTH) - 1 - rays) / (SCREEN_WIDTH - 1);
+			float next_ray_direction = FOV_HORIZONTAL * (std::floor(0.5f * SCREEN_WIDTH) - 1 - rays) / (SCREEN_WIDTH - 1);
 
 			ray_projection_position = 0.5f * tan(deg_to_rad(next_ray_direction)) / tan(deg_to_rad(0.5f * FOV_HORIZONTAL));
 
-			next_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_position)));
+			next_column = static_cast<short>(std::round(SCREEN_WIDTH * (0.5f - ray_projection_position)));
 		}
 
 		//Это предотвратит от рисования одной коллоны поверх другой
@@ -234,7 +237,7 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 			float wall_texture_column_x = 0;
 
 			//Эффект тумана не будет появляться если объект ближе RENDER_DISTANCE / 2
-			unsigned char brightness = static_cast<unsigned char>(round(255 * std::max<float>(0, 2 * view_rays[rays] / RENDER_DISTANCE - 1)));
+			unsigned char brightness = static_cast<unsigned char>(std::round(255 * std::max<float>(0, 2 * view_rays[rays] / RENDER_DISTANCE - 1)));
 
 			//Высота коллоны, умноженная на косинус чтобы предотвратить эффект рыбьего глаза
 			unsigned short column_height = static_cast<unsigned short>(SCREEN_HEIGHT * projection_distance / (view_rays[rays] * cos(deg_to_rad(ray_direction))));
@@ -242,26 +245,26 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 			//Цвет "тумана" такой же как у неба
 			sf::RectangleShape shape(sf::Vector2f(std::max(1, next_column - current_column), column_height));
 			shape.setFillColor(sf::Color(73, 255, 255, brightness));
-			shape.setPosition(current_column, round(floor_level - 0.5f * column_height));
+			shape.setPosition(current_column, std::round(floor_level - 0.5f * column_height));
 
 			previous_column = current_column;
 
 			//Проверяем в какую часть стены коснулся луч, в вертикальную или горизонтальную
-			if (abs(ray_end_x - CELL_SIZE * round(ray_end_x / CELL_SIZE)) < abs(ray_end_y - CELL_SIZE * round(ray_end_y / CELL_SIZE)))
+			if (abs(ray_end_x - CELL_SIZE * std::round(ray_end_x / CELL_SIZE)) < std::abs(ray_end_y - CELL_SIZE * std::round(ray_end_y / CELL_SIZE)))
 			{
-				wall_texture_column_x = ray_end_y - CELL_SIZE * floor(ray_end_y / CELL_SIZE);
+				wall_texture_column_x = ray_end_y - CELL_SIZE * std::floor(ray_end_y / CELL_SIZE);
 			}
 			else
 			{
-				wall_texture_column_x = CELL_SIZE * ceil(ray_end_x / CELL_SIZE) - ray_end_x;
+				wall_texture_column_x = CELL_SIZE * std::ceil(ray_end_x / CELL_SIZE) - ray_end_x;
 			}
 
 			for (int i = 1; i <= NUM_WALL_TYPES; i++) {
 				if (i == i_map[current_cell_x][current_cell_y]) {
 					sf::Sprite temp_sprite;
 					temp_sprite.setTexture(wall_textures[i - 1]);
-					temp_sprite.setPosition(current_column, round(floor_level - 0.5f * column_height)); // Указание координат для отрисовки спрайта
-					temp_sprite.setTextureRect(sf::IntRect(static_cast<unsigned short>(round(wall_texture_column_x)), 0, 1, CELL_SIZE)); // Текстурирование спрайта
+					temp_sprite.setPosition(current_column, std::round(floor_level - 0.5f * column_height)); // Указание координат для отрисовки спрайта
+					temp_sprite.setTextureRect(sf::IntRect(static_cast<unsigned short>(std::round(wall_texture_column_x)), 0, 1, CELL_SIZE)); // Текстурирование спрайта
 					temp_sprite.setScale(std::max(1, next_column - current_column), column_height / static_cast<float>(CELL_SIZE)); // Scale спрайта
 					i_window.draw(temp_sprite); // Рисование спрайта
 				}
@@ -341,17 +344,17 @@ void Player::update(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i
 	else if (0 == map_collision(step_x + x, y, i_map))
 	{
 		x += step_x;
-		y = CELL_SIZE * round(y / CELL_SIZE);
+		y = CELL_SIZE * std::round(y / CELL_SIZE);
 	}
 	else if (0 == map_collision(x, step_y + y, i_map))
 	{
-		x = CELL_SIZE * round(x / CELL_SIZE);
+		x = CELL_SIZE * std::round(x / CELL_SIZE);
 		y += step_y;
 	}
 	else
 	{
 		//Располагаем игрока на ближайшей ячейке, чтобы он её касался
-		x = CELL_SIZE * round(x / CELL_SIZE);
-		y = CELL_SIZE * round(y / CELL_SIZE);
+		x = CELL_SIZE * std::round(x / CELL_SIZE);
+		y = CELL_SIZE * std::round(y / CELL_SIZE);
 	}
 }

@@ -23,7 +23,7 @@ add_executable(RayCaster src/main.cpp src/Header.h
     src/Menu.cpp
     src/Menu.h)
 target_link_libraries(RayCaster PRIVATE sfml-audio sfml-graphics sfml-window sfml-system)
-target_compile_features(RayCaster PRIVATE cxx_std_17)
+target_compile_features(RayCaster PRIVATE cxx_std_11)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET RayCaster POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:RayCaster> $<TARGET_FILE_DIR:RayCaster> COMMAND_EXPAND_LISTS)

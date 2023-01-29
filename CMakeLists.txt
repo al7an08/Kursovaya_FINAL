@@ -39,4 +39,4 @@ endif()
 
 
 install(TARGETS ${PROJECT_NAME} CONFIGURATIONS Release DESTINATION RayCaster)
-install(DIRECTORY Resources/ DESTINATION RayCaster/Resources)
+install(DIRECTORY src/Resources/ DESTINATION RayCaster/Resources)

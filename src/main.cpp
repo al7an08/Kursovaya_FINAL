@@ -1,5 +1,7 @@
 #include <iostream>
 #include <array>
+#include <cmath>
+
 #include <SFML/Graphics.hpp>
 #include "Header.h"
 #include "MapCollision.h"
@@ -62,8 +64,8 @@ int main()
 	sf::Sprite map_wall_sprite;
 	Menu menu;
 
-	unsigned short window_center_x = static_cast<unsigned short>(round(0.5f * window.getSize().x)); // Координаты середины окна
-	unsigned short window_center_y = static_cast<unsigned short>(round(0.5f * window.getSize().y));
+	unsigned short window_center_x = static_cast<unsigned short>(std::round(0.5f * window.getSize().x)); // Координаты середины окна
+	unsigned short window_center_y = static_cast<unsigned short>(std::round(0.5f * window.getSize().y));
 
 	sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), window);
 

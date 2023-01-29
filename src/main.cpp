@@ -72,14 +72,18 @@ int main()
 	delete menu1;
 
 	sf::Texture map_grid_cell_texture;
-	map_grid_cell_texture.loadFromFile("../Resources/Images/MapGridCell.png");
+	if (!map_grid_cell_texture.loadFromFile("../Resources/Images/MapGridCell.png")) {
+		map_grid_cell_texture.loadFromFile("Resources/Images/MapGridCell.png");
+	}
 
 	std::array<sf::Texture, NUM_WALL_TYPES> map_wall_textures;
 	std::array<sf::Sprite, NUM_WALL_TYPES> map_wall_sprites;
 
 	for (int i = 0; i < NUM_WALL_TYPES; i++) {
 		sf::Texture temp_texture;
-		temp_texture.loadFromFile("../Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
+		if (!temp_texture.loadFromFile("../Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png")) {
+			temp_texture.loadFromFile("Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
+		}
 		map_wall_textures[i] = temp_texture;
 		sf::Sprite temp_sprite;
 		temp_sprite.setTexture(temp_texture);
@@ -89,13 +93,18 @@ int main()
 	window.setMouseCursorVisible(false);
 	Player player(0, 0, 100);
 
-	std::string level = "../Resources/Levels/level_map1.png";
 	std::array<std::string, LEVELS_NUM> levels;
+	std::array<std::string, LEVELS_NUM> levels_another_link;
 	for (int i = 0; i < LEVELS_NUM; i++) {
+		sf::Texture tempTexture;
 		levels[i] = ("../Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
 	}
+	for (int i = 0; i < LEVELS_NUM; i++) {
+		sf::Texture tempTexture;
+		levels_another_link[i] = ("Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
+	}
 
-	map = convert_sketch(player, level);
+	map = convert_sketch(player, levels[0], levels_another_link[0]);
 
 	map_grid_cell_sprite.setTexture(map_grid_cell_texture);
 	map_grid_cell_sprite.setTextureRect(sf::IntRect(0, 0, MAP_GRID_CELL_SIZE, MAP_GRID_CELL_SIZE));
@@ -158,7 +167,8 @@ int main()
 			menu.DrawMenu(window);
 			if (menu.IsLevelChanged()) {
 				std::string level = levels[menu.Get_Level_Num() - 1];
-				map = convert_sketch(player, level);
+				std::string level_another_link = levels_another_link[menu.Get_Level_Num() - 1];
+				map = convert_sketch(player, level, level_another_link);
 				menu.set_is_level_changed();
 			}
 		}

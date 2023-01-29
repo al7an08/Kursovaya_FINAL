@@ -18,18 +18,24 @@ Player::Player(float i_x, float i_y, float i_hp) : // Конструктор к�
 	map_player_sprite(map_player_texture)
 
 {
-	map_player_texture.loadFromFile("../Resources/Images/MapPlayer" + std::to_string(MAP_CELL_SIZE) + ".png"); // Загрузка текстуры из файла
+	if (!map_player_texture.loadFromFile("../Resources/Images/MapPlayer" + std::to_string(MAP_CELL_SIZE) + ".png")) {
+		map_player_texture.loadFromFile("Resources/Images/MapPlayer" + std::to_string(MAP_CELL_SIZE) + ".png");
+	}; // Загрузка текстуры из файла
 
 	for (int i = 0; i < NUM_WALL_TYPES; i++) {
 		sf::Texture temp_texture;
-		temp_texture.loadFromFile("../Resources/Images/Wall" + std::to_string(i) + std::to_string(CELL_SIZE) + ".png");
+		if (!temp_texture.loadFromFile("../Resources/Images/Wall" + std::to_string(i) + std::to_string(CELL_SIZE) + ".png")) {
+			temp_texture.loadFromFile("Resources/Images/Wall" + std::to_string(i) + std::to_string(CELL_SIZE) + ".png");
+		}
 		wall_textures[i] = temp_texture;
 		sf::Sprite temp_sprite;
 		temp_sprite.setTexture(temp_texture);
 		wall_sprites[i] = (temp_sprite);
 	}
 	
-	enemy_texture.loadFromFile("../Resources/Images/Steven" + std::to_string(CELL_SIZE) + ".png");
+	if (!enemy_texture.loadFromFile("../Resources/Images/Steven" + std::to_string(CELL_SIZE) + ".png")) {
+		enemy_texture.loadFromFile("Resources/Images/Steven" + std::to_string(CELL_SIZE) + ".png");
+	}
 	enemy_sprite.setTexture(enemy_texture);
 }
 

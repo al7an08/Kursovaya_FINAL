@@ -4,7 +4,7 @@
 #include <iostream>
 
 // Создание уровня из изображения, цвет каждого пикселя соответсвует с одним из объектов, а его расположение соответсвует расположению на карте
-std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> convert_sketch(Player& i_player, std::string level)
+std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> convert_sketch(Player& i_player, std::string level, std::string level_another_link)
 {
 	std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> output_map{};
 
@@ -13,7 +13,7 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> convert_sketch(Player& i_pla
 	if (!map_sketch.loadFromFile(level)) {
 		std::cout << "Не найдено изображение уровня" << std::endl;
 		std::cout << "Загружается стандартный уровень";
-		map_sketch.loadFromFile("../Resources/Levels/level_map1.png");
+		map_sketch.loadFromFile(level_another_link);
 	}
 
 	for (unsigned char a = 0; a < MAP_WIDTH; a++)

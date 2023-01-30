@@ -5,8 +5,8 @@ Menu::Menu() {
 	isMenu = 1;
 	for (int i = 0; i < BUTTON_NUM; i++) {
 		sf::Texture* TempTexture = new sf::Texture();
-		if (!TempTexture->loadFromFile("../Resources/Textures/Button" + std::to_string(i) + ".png")) {
-			TempTexture->loadFromFile("Resources/Textures/Button" + std::to_string(i) + ".png");
+		if (!TempTexture->loadFromFile("Resources/Textures/Button" + std::to_string(i) + ".png")) {
+			TempTexture->loadFromFile("../Resources/Textures/Button" + std::to_string(i) + ".png");
 		};
 		Buttons_Texture[i] = *TempTexture;
 		delete TempTexture;

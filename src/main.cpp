@@ -74,8 +74,8 @@ int main()
 	delete menu1;
 
 	sf::Texture map_grid_cell_texture;
-	if (!map_grid_cell_texture.loadFromFile("../Resources/Images/MapGridCell.png")) {
-		map_grid_cell_texture.loadFromFile("Resources/Images/MapGridCell.png");
+	if (!map_grid_cell_texture.loadFromFile("Resources/Images/MapGridCell.png")) {
+		map_grid_cell_texture.loadFromFile("../Resources/Images/MapGridCell.png");
 	}
 
 	std::array<sf::Texture, NUM_WALL_TYPES> map_wall_textures;
@@ -83,8 +83,8 @@ int main()
 
 	for (int i = 0; i < NUM_WALL_TYPES; i++) {
 		sf::Texture temp_texture;
-		if (!temp_texture.loadFromFile("../Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png")) {
-			temp_texture.loadFromFile("Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
+		if (!temp_texture.loadFromFile("Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png")) {
+			temp_texture.loadFromFile("../Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
 		}
 		map_wall_textures[i] = temp_texture;
 		sf::Sprite temp_sprite;
@@ -99,11 +99,11 @@ int main()
 	std::array<std::string, LEVELS_NUM> levels_another_link;
 	for (int i = 0; i < LEVELS_NUM; i++) {
 		sf::Texture tempTexture;
-		levels[i] = ("../Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
+		levels[i] = ("Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
 	}
 	for (int i = 0; i < LEVELS_NUM; i++) {
 		sf::Texture tempTexture;
-		levels_another_link[i] = ("Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
+		levels_another_link[i] = ("../Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
 	}
 
 	map = convert_sketch(player, levels[0], levels_another_link[0]);

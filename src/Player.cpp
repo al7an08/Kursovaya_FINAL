@@ -251,7 +251,7 @@ void Player::draw_screen(sf::RenderWindow& i_window, const std::array<std::array
 			previous_column = current_column;
 
 			//Проверяем в какую часть стены коснулся луч, в вертикальную или горизонтальную
-			if (abs(ray_end_x - CELL_SIZE * std::round(ray_end_x / CELL_SIZE)) < std::abs(ray_end_y - CELL_SIZE * std::round(ray_end_y / CELL_SIZE)))
+			if (std::abs(ray_end_x - CELL_SIZE * std::round(ray_end_x / CELL_SIZE)) < std::abs(ray_end_y - CELL_SIZE * std::round(ray_end_y / CELL_SIZE)))
 			{
 				wall_texture_column_x = ray_end_y - CELL_SIZE * std::floor(ray_end_y / CELL_SIZE);
 			}

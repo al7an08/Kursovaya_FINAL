@@ -1,9 +1,9 @@
 #include <chrono>
-
+#include <cmath>
 #include "GetDegrees.h"
 #include "Header.h"
 
 float get_degrees(float i_degrees)
 {
-	return static_cast<float>(fmod(360 + fmod(i_degrees, 360), 360));
+	return static_cast<float>(std::fmod(360 + std::fmod(i_degrees, 360), 360));
 }

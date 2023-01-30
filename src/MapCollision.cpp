@@ -1,5 +1,6 @@
 #include <array>
 #include <chrono>
+#include <cmath>
 #include "MapCollision.h"
 
 //Коллизия, чтобы игрок не смог проходить через стены
@@ -17,29 +18,29 @@ bool map_collision(float i_x, float i_y, const std::array<std::array<Cell, MAP_H
 		{
 		case 0:
 		{
-			x = static_cast<short>(floor(cell_x));
-			y = static_cast<short>(floor(cell_y));
+			x = static_cast<short>(std::floor(cell_x));
+			y = static_cast<short>(std::floor(cell_y));
 
 			break;
 		}
 		case 1:
 		{
-			x = static_cast<short>(ceil(cell_x));
-			y = static_cast<short>(floor(cell_y));
+			x = static_cast<short>(std::ceil(cell_x));
+			y = static_cast<short>(std::floor(cell_y));
 
 			break;
 		}
 		case 2:
 		{
-			x = static_cast<short>(floor(cell_x));
-			y = static_cast<short>(ceil(cell_y));
+			x = static_cast<short>(std::floor(cell_x));
+			y = static_cast<short>(std::ceil(cell_y));
 
 			break;
 		}
 		case 3:
 		{
-			x = static_cast<short>(ceil(cell_x));
-			y = static_cast<short>(ceil(cell_y));
+			x = static_cast<short>(std::ceil(cell_x));
+			y = static_cast<short>(std::ceil(cell_y));
 		}
 		}
 

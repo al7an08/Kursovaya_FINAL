@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include<climits>
 
 #include "Header.h"
 #include "Player.h"

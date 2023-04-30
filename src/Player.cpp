@@ -8,6 +8,8 @@
 #include "GetDegrees.h"
 #include "RadToDeg.h"
 #include <iostream>
+#include <cmath>
+
 
 Player::Player(float i_x, float i_y, float i_hp) : // Конструктор класса Player
 	direction_horizontal(0),

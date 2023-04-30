@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include <array>
 #include <iostream>
+#include <cmath>
 
 // Создание уровня из изображения, цвет каждого пикселя соответсвует с одним из объектов, а его расположение соответсвует расположению на карте
 std::vector<std::vector<Cell>> convert_sketch(Player& i_player, std::string level)

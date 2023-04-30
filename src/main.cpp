@@ -7,6 +7,7 @@
 #include "ConvertSketch.h"
 #include "Menu.h"
 #include "SFML/Graphics.hpp"
+#include <cmath>
 
 //#pragma comment(lib, "sfml-graphics.lib")
 //#pragma comment(lib, "sfml-window.lib")

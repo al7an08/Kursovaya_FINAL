@@ -1,7 +1,5 @@
 #include <iostream>
 #include <array>
-#include <cmath>
-
 #include <SFML/Graphics.hpp>
 #include "Header.h"
 #include "MapCollision.h"
@@ -17,7 +15,7 @@
 
 bool draw_map = true;
 
-std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> map{};
+std::vector<std::vector<Cell>> map{};
 
 int main()
 {
@@ -64,8 +62,8 @@ int main()
 	sf::Sprite map_wall_sprite;
 	Menu menu;
 
-	unsigned short window_center_x = static_cast<unsigned short>(std::round(0.5f * window.getSize().x)); // Координаты середины окна
-	unsigned short window_center_y = static_cast<unsigned short>(std::round(0.5f * window.getSize().y));
+	unsigned short window_center_x = static_cast<unsigned short>(round(0.5f * window.getSize().x)); // Координаты середины окна
+	unsigned short window_center_y = static_cast<unsigned short>(round(0.5f * window.getSize().y));
 
 	sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), window);
 
@@ -74,18 +72,14 @@ int main()
 	delete menu1;
 
 	sf::Texture map_grid_cell_texture;
-	if (!map_grid_cell_texture.loadFromFile("Resources/Images/MapGridCell.png")) {
-		map_grid_cell_texture.loadFromFile("../Resources/Images/MapGridCell.png");
-	}
+	map_grid_cell_texture.loadFromFile("Resources/Images/MapGridCell.png");
 
 	std::array<sf::Texture, NUM_WALL_TYPES> map_wall_textures;
 	std::array<sf::Sprite, NUM_WALL_TYPES> map_wall_sprites;
 
 	for (int i = 0; i < NUM_WALL_TYPES; i++) {
 		sf::Texture temp_texture;
-		if (!temp_texture.loadFromFile("Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png")) {
-			temp_texture.loadFromFile("../Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
-		}
+		temp_texture.loadFromFile("Resources/Images/MapWall" + std::to_string(i) + std::to_string(MAP_CELL_SIZE) + ".png");
 		map_wall_textures[i] = temp_texture;
 		sf::Sprite temp_sprite;
 		temp_sprite.setTexture(temp_texture);
@@ -95,18 +89,17 @@ int main()
 	window.setMouseCursorVisible(false);
 	Player player(0, 0, 100);
 
+	std::string level = "Resources/Levels/level_map1.png";
 	std::array<std::string, LEVELS_NUM> levels;
-	std::array<std::string, LEVELS_NUM> levels_another_link;
 	for (int i = 0; i < LEVELS_NUM; i++) {
-		sf::Texture tempTexture;
 		levels[i] = ("Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
 	}
-	for (int i = 0; i < LEVELS_NUM; i++) {
-		sf::Texture tempTexture;
-		levels_another_link[i] = ("../Resources/Levels/level_map" + std::to_string(i + 1) + ".png");
-	}
 
-	map = convert_sketch(player, levels[0], levels_another_link[0]);
+	map = convert_sketch(player, level);
+
+	int MAP_HEIGHT = map[0].size();
+	int MAP_WIDTH = map.size();
+
 
 	map_grid_cell_sprite.setTexture(map_grid_cell_texture);
 	map_grid_cell_sprite.setTextureRect(sf::IntRect(0, 0, MAP_GRID_CELL_SIZE, MAP_GRID_CELL_SIZE));
@@ -169,12 +162,15 @@ int main()
 			menu.DrawMenu(window);
 			if (menu.IsLevelChanged()) {
 				std::string level = levels[menu.Get_Level_Num() - 1];
-				std::string level_another_link = levels_another_link[menu.Get_Level_Num() - 1];
-				map = convert_sketch(player, level, level_another_link);
+				map = convert_sketch(player, level);
 				menu.set_is_level_changed();
+				int MAP_HEIGHT = map[0].size();
+				int MAP_WIDTH = map.size();
 			}
 		}
 		else {
+			int MAP_HEIGHT = map[0].size();
+			int MAP_WIDTH = map.size();
 			window.setMouseCursorVisible(false);
 			while (FRAME_DURATION <= lag)
 			{
@@ -191,9 +187,9 @@ int main()
 
 					if (draw_map)
 					{
-						for (unsigned short a = 0; a < std::ceil(MAP_CELL_SIZE * MAP_WIDTH / static_cast<float>(MAP_GRID_CELL_SIZE)); a++)
+						for (unsigned short a = 0; a < ceil(MAP_CELL_SIZE * MAP_WIDTH / static_cast<float>(MAP_GRID_CELL_SIZE)); a++)
 						{
-							for (unsigned short b = 0; b < std::ceil(MAP_CELL_SIZE * MAP_HEIGHT / static_cast<float>(MAP_GRID_CELL_SIZE)); b++)
+							for (unsigned short b = 0; b < ceil(MAP_CELL_SIZE * MAP_HEIGHT / static_cast<float>(MAP_GRID_CELL_SIZE)); b++)
 							{
 								map_grid_cell_sprite.setPosition(static_cast<float>(MAP_GRID_CELL_SIZE * a), static_cast<float>(MAP_GRID_CELL_SIZE * b));
 

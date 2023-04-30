@@ -2,6 +2,7 @@
 #include <chrono>
 #include "MapCollision.h"
 #include <vector>
+#include <cmath>
 
 //Коллизия, чтобы игрок не смог проходить через стены
 bool map_collision(float i_x, float i_y, std::vector<std::vector<Cell>>& i_map)

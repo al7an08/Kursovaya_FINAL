@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "ConvertSketch.h"
 #include "Menu.h"
-#include <cmath>s
+#include <cmath>
 
 //#pragma comment(lib, "sfml-graphics.lib")
 //#pragma comment(lib, "sfml-window.lib")

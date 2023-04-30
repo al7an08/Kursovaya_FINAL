@@ -62,8 +62,8 @@ int main()
 	sf::Sprite map_wall_sprite;
 	Menu menu;
 
-	unsigned short window_center_x = static_cast<unsigned short>(round(0.5f * window.getSize().x)); // Координаты середины окна
-	unsigned short window_center_y = static_cast<unsigned short>(round(0.5f * window.getSize().y));
+	unsigned short window_center_x = static_cast<unsigned short>(std::round(0.5f * window.getSize().x)); // Координаты середины окна
+	unsigned short window_center_y = static_cast<unsigned short>(std::round(0.5f * window.getSize().y));
 
 	sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), window);
 
@@ -187,9 +187,9 @@ int main()
 
 					if (draw_map)
 					{
-						for (unsigned short a = 0; a < ceil(MAP_CELL_SIZE * MAP_WIDTH / static_cast<float>(MAP_GRID_CELL_SIZE)); a++)
+						for (unsigned short a = 0; a < std::ceil(MAP_CELL_SIZE * MAP_WIDTH / static_cast<float>(MAP_GRID_CELL_SIZE)); a++)
 						{
-							for (unsigned short b = 0; b < ceil(MAP_CELL_SIZE * MAP_HEIGHT / static_cast<float>(MAP_GRID_CELL_SIZE)); b++)
+							for (unsigned short b = 0; b < std::ceil(MAP_CELL_SIZE * MAP_HEIGHT / static_cast<float>(MAP_GRID_CELL_SIZE)); b++)
 							{
 								map_grid_cell_sprite.setPosition(static_cast<float>(MAP_GRID_CELL_SIZE * a), static_cast<float>(MAP_GRID_CELL_SIZE * b));
 
